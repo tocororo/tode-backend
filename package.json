@@ -1,0 +1,35 @@
+{
+  "name": "myproyect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client-install": "npm install --prefix ../frontend",
+    "start-server": "nodemon src/index.js -s -w -d data",
+    "start-client": "npm start --prefix ../frontend",
+    "start-texture": "npm start --prefix ../texture",
+    "start": "concurrently \"npm run start-texture\" \"npm run start-server\" \"npm run start-client\" "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.2",
+    "config": "^3.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "fs-extra": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.13",
+    "nodemon": "^1.18.4",
+    "parse-formdata": "^1.0.2",
+    "socket.io": "^2.3.0",
+    "substance": "^1.0.0-preview.53",
+    "substance-bundler": "0.7.2",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}

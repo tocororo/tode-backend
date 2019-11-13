@@ -1,0 +1,5 @@
+{
+    "MONGODB_URI": "mongodb://localhost/myproject",
+    "jwtSecret": "Secrete_User_Password",
+    "port": 4000
+}
