@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'El campo password es requerido']
   },
   rol: {
-    type: String
+    type: [String]
   }
 },
   {

@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix ../frontend",
+    "client-install": "npm install --prefix ../tode-frontend",
     "start-server": "nodemon src/index.js -s -w -d data",
-    "start-client": "npm start --prefix ../frontend",
-    "start-texture": "npm start --prefix ../texture",
-    "start": "concurrently \"npm run start-texture\" \"npm run start-server\" \"npm run start-client\" "
+    "start-client": "npm start --prefix ../tode-frontend",
+    "start": "concurrently  \"npm run start-server\" \"npm run start-client\" "
   },
   "author": "",
   "license": "ISC",

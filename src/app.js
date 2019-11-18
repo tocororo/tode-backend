@@ -18,5 +18,7 @@ app.use(express.json());
 app.use(require('./routes/user.routes'));
 app.use(require('./routes/auth.routes'));
 app.use(require('./routes/message.routes'));
+app.use(require('./routes/document.routes'));
+app.use(require('./routes/document_version.routes'));
 
 module.exports = app;

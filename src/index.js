@@ -10,17 +10,11 @@ const Message = require('./models/message.model');
 const socket = require('socket.io');
 
 
-let darServer = require('./controllers/document-server')
 
 const port = config.get('port')
-const rootDir = path.resolve(path.join(__dirname, 'data'))
 
 
-darServer.serve(app, {
-    port,
-    serverUrl: 'http://localhost:' + port,
-    rootDir
-})
+
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("./client/build"));
