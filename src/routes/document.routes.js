@@ -12,7 +12,7 @@ router.route('/new_document').post(post_document);
 
 router.route('/edit_document/:id').put(put_document);
 
-router.route('/delete_document/:id').delete(auth, delete_document);
+router.route('/delete_document/:id').delete(delete_document);
 
 
 module.exports = router;
