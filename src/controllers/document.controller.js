@@ -1,3 +1,4 @@
+
 const Document = require('../models/document.model');
 
 const documentController = {};
@@ -15,8 +16,17 @@ documentController.get_document = async (req, res, next) => {
 };
 
 documentController.post_document = async (req, res, next) => {
-    await Document.create(req.body).then(function (documents) {
-        res.send(documents);
+    await Document.create(req.body).then(function (document) {
+
+        var fs = require('fs');
+        var config = require('config')
+        var dir = config.data_dir + '/' + document._id;
+        console.log(dir);
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+
+        res.send(document);
     });
 };
 
