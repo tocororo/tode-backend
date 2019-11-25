@@ -4,12 +4,10 @@ var config = require('config')
 const fileSystem = {};
 
 fileSystem.crearDirectorio = (document) => {
-var dir = config.data_dir + '/' + document._id;
-console.log(dir);
-fs.mkdir(dir, function() {
-        fs.writeFile(`/${dir}/${document._id}.txt`, `${document.coment}`, function(err) {
-            if(err) return console.error(err);            
-        });
+    var dir = config.data_dir + '/' + document._id;
+    console.log(dir);
+    fs.mkdir(dir, function(err) {
+        if(err) return console.error(err);
     });
 }
 

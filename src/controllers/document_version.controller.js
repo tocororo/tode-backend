@@ -30,6 +30,7 @@ document_versionController.document_version_content = async (req, res, next) => 
 document_versionController.post_document_version = async (req, res, next) => {
     await DocumentVersion.create(req.body).then(function (document_version) {
         crearVersion(document_version)
+        console.log(req.body)
         res.send(document_version);
     });
 };

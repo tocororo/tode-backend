@@ -1,6 +1,7 @@
 
 const Document = require('../models/document.model');
-const { crearDirectorio,verDocumento } = require('./fileSystem.controller')
+const DocumentVersion = require('../models/document_version.model');
+const { crearDirectorio,verDocumento, crearVersion} = require('./fileSystem.controller')
 var fs = require('fs');
 var config = require('config')
 
@@ -31,8 +32,17 @@ documentController.document_content = async (req, res, next) => {
 };
 
 documentController.post_document = async (req, res, next) => {
-    await Document.create(req.body).then(function (document) {       
+    await Document.create(req.body).then(function (document) {    
         crearDirectorio(document);
+        version_body = {
+            'coment': document.coment,
+            'document_user': document.document_user,
+            'document': document
+        }
+        DocumentVersion.create(version_body).then(function (document_version) {
+            crearVersion(document_version)
+        });
+        console.log(req.body)
         res.send(document);
     });
 };
