@@ -1,7 +1,7 @@
 {
-    "MONGODB_URI": "mongodb://tode:tode@10.80.3.184:27017/tode",
+    "MONGODB_URI": "mongodb://localhost/tode",
     "jwtSecret": "Secrete_User_Password",
     "port": 4000,
-    "data_dir": "/home/malayo/www/tocororo/jats/TODE/data"
+    "data_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/data"
 }
 

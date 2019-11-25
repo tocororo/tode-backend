@@ -1,12 +1,14 @@
 const { Router } = require('express');
 const router = Router();
-const { get_documents, get_document, post_document, put_document, delete_document } = require('../controllers/document.controller')
+const { get_documents, get_document, document_content, post_document, put_document, delete_document } = require('../controllers/document.controller')
 
 const auth = require('../middlewares/auth')
 
 router.route('/document').get(get_documents);
 
 router.route('/document/:id').get(get_document);
+
+router.route('/document_content/:id').get(document_content);
 
 router.route('/new_document').post(post_document);
 
