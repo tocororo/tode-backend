@@ -4,7 +4,7 @@ const { get_documents_version, get_document_version, document_version_content, p
 
 const auth = require('../middlewares/auth')
 
-router.route('/document_version').get(get_documents_version);
+router.route('/document_version').get(auth, get_documents_version);
 
 router.route('/document_version/:id').get(get_document_version);
 

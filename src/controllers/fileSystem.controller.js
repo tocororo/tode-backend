@@ -11,9 +11,15 @@ fileSystem.crearDirectorio = (document) => {
     });
 }
 
-fileSystem.crearVersion = (document_version) => {
+fileSystem.crearTXT = (document) => {
+    var dir = config.data_dir + '/' + document._id;
+            fs.writeFile(`/${dir}/${document._id}.txt`, `${document.coment}`, function(err) {
+                if(err) return console.error(err);            
+            });
+}
+
+fileSystem.crearTXTversion = (document_version) => {
     var dir = config.data_dir + '/' + document_version.document._id;
-    console.log(document_version.document.name)
             fs.writeFile(`/${dir}/${document_version._id}.txt`, `${document_version.coment}`, function(err) {
                 if(err) return console.error(err);            
             });

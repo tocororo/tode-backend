@@ -4,7 +4,7 @@ const { get_documents, get_document, document_content, post_document, put_docume
 
 const auth = require('../middlewares/auth')
 
-router.route('/document').get(get_documents);
+router.route('/document').get( get_documents);
 
 router.route('/document/:id').get(get_document);
 

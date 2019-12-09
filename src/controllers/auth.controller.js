@@ -25,7 +25,10 @@ userController.post_user_auth = async (req, res, next) => {
             if (!isMatch) return res.status(400).json({ msg: "Credenciales invalidas" });
 
             jwt.sign(
-                { id: user.id },
+                {
+                    id: user.id,
+                    rol: user.rol
+                 },
                 config.get('jwtSecret'),
                 (err, token) => {
                     if (err) throw err;
@@ -39,6 +42,7 @@ userController.post_user_auth = async (req, res, next) => {
                     });
                 })
         })
+        
     });
 
 

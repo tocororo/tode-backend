@@ -20,5 +20,6 @@ app.use(require('./routes/auth.routes'));
 app.use(require('./routes/message.routes'));
 app.use(require('./routes/document.routes'));
 app.use(require('./routes/document_version.routes'));
+app.use(require('./routes/permision.routes'));
 
 module.exports = app;
