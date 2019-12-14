@@ -6,7 +6,7 @@ var config = require('config')
 const document_versionController = {};
 
 document_versionController.get_documents_version = async (req, res, next) => {
-     DocumentVersion.find({"document_user": req.user.id}).populate('document_user').populate('document').then(function(document_version){
+     DocumentVersion.find().populate('document_user').populate('document').then(function(document_version){
          res.send(document_version)
         });
     };
