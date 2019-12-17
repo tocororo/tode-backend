@@ -34,11 +34,7 @@ userController.post_user_auth = async (req, res, next) => {
                     if (err) throw err;
                     res.json({
                         token,
-                        user: {
-                            id: user.id,
-                            name: user.name,
-                            email: user.email
-                        }
+                        user: user
                     });
                 })
         })
@@ -51,7 +47,7 @@ userController.post_user_auth = async (req, res, next) => {
 
 userController.get_user_auth = (req, res) => {
     User.findById(req.user.id).select('-password').then(user =>
-        res.json(user));
+        res.send(JSON.stringify(user)));
 };
 
 module.exports = userController; 

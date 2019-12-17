@@ -3,7 +3,7 @@ const Permision = require('../models/permision.model')
 const permisionController = {}
 
 permisionController.get_permisions = async (req, res, next) => {
-    await Permision.find({"document_user": req.user.id}).populate('document_user').populate('document').then(function(permision){
+    await Permision.find().populate('document_user').populate('document').then(function(permision){
           res.send(permision)
        });
        

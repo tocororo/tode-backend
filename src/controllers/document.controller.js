@@ -1,4 +1,3 @@
-
 const Document = require('../models/document.model');
 const DocumentVersion = require('../models/document_version.model');
 const Permision = require('../models/permision.model')
