@@ -1,7 +1,9 @@
 const User = require('../models/user.model');
+const Permision = require('../models/permision.model')
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken')
+const _ = require('../../../tode-frontend/node_modules/lodash')
 
 const userController = {};
 
@@ -13,12 +15,29 @@ userController.get_users = async (req, res, next) =>
 userController.get_user = async (req, res, next) =>
     await User.findOne({ _id: req.params.id }).then(function (user) {
         res.send(user);
-    })
+    });
+
+userController.getUsersToPermission = async (req, res, next) => {
+     await User.find({"name": req.query.value}).then(function (user) {  
+
+        /*Permision.find({"document": req.query.document_id, "document_user": user._id}).then(function (permision) { 
+            if(permision.document_user != user._id)            
+             {
+             res.json(user) 
+             console.log(user);   
+            }else
+                {
+                 res.status(400).json({ msg: "El usuario ya tiene permisos sobre el documento" })
+                 console.log('El usuario ya tiene permisos sobre el documento');
+                }                   
+        });*/
+        
+        res.json(user)
+        
+    });
+};
 
 userController.post_user = async (req, res, next) => {
-    /*await User.create(req.body).then(function (user) {
-        res.send(user);
-    })*/
 
     const { name, email, password, rol } = req.body;
     if (!name || !email || !password || !rol) {

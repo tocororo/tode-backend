@@ -5,7 +5,8 @@ const messageController = {};
 
 // GET all the previous messages
 messageController.get_message = (req, res) => {
-    Message.find({}).exec((err, messages) => {
+    console.log(req.query);    
+    Message.find({'document': req.query.document_id}).exec((err, messages) => {
         if (err) {
             res.send(err).status(500);
         } else {

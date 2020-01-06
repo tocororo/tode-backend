@@ -4,7 +4,7 @@ const { get_permisions, post_permision, delete_permision } = require('../control
 
 const auth = require('../middlewares/auth')
 
-router.route('/permision').get(auth, get_permisions);
+router.route('/permision').get(get_permisions);
 
 router.route('/new_permision').post(post_permision);
 

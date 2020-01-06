@@ -10,6 +10,9 @@ const MessageSchema = new Schema({
     content: {
         type: String
     },
+    document: {
+        type: Schema.ObjectId, ref:'document'
+    },
     timestamp: {
         type: Date,
         default: Date.now
