@@ -47,7 +47,7 @@ userController.post_user_auth = async (req, res, next) => {
 
 userController.get_user_auth = (req, res) => {
     User.findById(req.user.id).select('-password').then(user =>
-        res.send(JSON.stringify(user)));
+        res.status(200).send(JSON.stringify(user)))
 };
 
 module.exports = userController; 

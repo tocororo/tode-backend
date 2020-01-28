@@ -3,12 +3,12 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type");
     res.header("Access-Control-Allow-Methods", "GET, POST");
     next();
-});
+}); */
 
 
 /** bodyParser.urlencoded(options)
@@ -39,5 +39,6 @@ app.use(require('./routes/message.routes'));
 app.use(require('./routes/document.routes'));
 app.use(require('./routes/document_version.routes'));
 app.use(require('./routes/permision.routes'));
+app.use(require('./routes/notification.routes'));
 
 module.exports = app;

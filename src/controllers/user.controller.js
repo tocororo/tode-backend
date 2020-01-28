@@ -9,13 +9,13 @@ const userController = {};
 
 userController.get_users = async (req, res, next) =>
     await User.find().then(function (user) {
-        res.send(user);
-    })
+        res.status(200).send(user)})
+        .catch(err => res.status(400).json(err))
 
 userController.get_user = async (req, res, next) =>
     await User.findOne({ _id: req.params.id }).then(function (user) {
-        res.send(user);
-    });
+        res.status(200).send(user)})
+        .catch(err => res.status(400).json(err))
 
 userController.getUsersToPermission = async (req, res, next) => {
      await User.find({"name": req.query.value}).then(function (user) {  
@@ -32,9 +32,8 @@ userController.getUsersToPermission = async (req, res, next) => {
                 }                   
         });*/
         
-        res.json(user)
-        
-    });
+        res.status(200).json(user)})
+        .catch(err => res.status(400).json(err))
 };
 
 userController.post_user = async (req, res, next) => {
@@ -125,8 +124,8 @@ userController.put_user = async (req, res, next) => {
 }
 userController.delete_user = async (req, res, next) =>
     await User.findOneAndRemove({ _id: req.params.id }).then(function (user) {
-        res.send(user);
-    });
+        res.status(200).send(user)})
+        .catch(err => res.status(400).json(err))
 
 
 

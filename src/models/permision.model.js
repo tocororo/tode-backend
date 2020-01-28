@@ -3,6 +3,7 @@ const Schema=mongoose.Schema
 
 const permisionSchema = new Schema(
     {
+    requestAcepted: {type:Boolean, default:false},
     document_user : {type: Schema.ObjectId, ref:'user'},
     document: {type: Schema.ObjectId, ref:'document'}
 })

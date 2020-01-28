@@ -14,17 +14,20 @@ documentController.get_documents = async (req, res, next) => {
      await Document.find().populate('document_user').then(function(document){
         doc = document;
      })
+     .catch(err => res.status(400).json(err))
 
      await Permision.find().populate('document_user').populate('document').then (function(permision){
         perm = permision
     }) 
-    res.json({docs:doc, perms:perm})
+    .catch(err => res.status(400).json(err))
+    
+    res.status(200).json({docs:doc, perms:perm})
 };
 
 documentController.get_document = async (req, res, next) => {
-    await Document.findOne({ _id: req.params.id }).then(function (document) {
-        res.send(document)       
-    });
+    await Document.findOne({ _id: req.params.id }).populate('document_user').then(function (document) {
+        res.status(200).send(document)})
+        .catch(err => res.status(400).json(err))
 };
 
 documentController.document_content = async (req, res, next) => {
@@ -33,16 +36,13 @@ documentController.document_content = async (req, res, next) => {
         fs.readFile(dir + '/' + `${document._id}.txt`, "utf8", function(err, data) {
             if (err) throw err;
             res.send(data);
-        });
-        
-        
+        });   
     });
 };
 
 documentController.post_document = async (req, res, next) => {
     await Document.create(req.body).then(function (document) {    
         crearDirectorio(document);
-        crearTXT(document)
         version_body = {
             'coment': document.coment,
             'document_user': document.document_user,
@@ -56,23 +56,23 @@ documentController.post_document = async (req, res, next) => {
             'document': document
         }
         Permision.create(permision_body)
-        res.send(document);
-    });
+        res.status(200).send(document)})
+        .catch(err => res.status(400).json(err))
 };
 
 documentController.put_document = async (req, res, next) => {
     await Document.findOneAndUpdate({ _id: req.params.id }, req.body).then(function () {
         Document.findOne({ _id: req.params.id }).then(function (document) {
-            res.send(document);
-
+            res.status(200).send(document)
         });
-    });
+    })
+    .catch(err => res.status(400).json(err))
 }
 
 documentController.delete_document = async (req, res, next) => {
     await Document.findOneAndRemove({ _id: req.params.id }).then(function (document) {
-        res.send(document);
-    });
+        res.status(200).send(document)})
+        .catch(err => res.status(400).json(err))
 }
 
 

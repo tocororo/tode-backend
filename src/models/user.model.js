@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'El campo nombre es requerido'],
-    trim: true,
-    unique: true
+    required: [true, 'El campo nombre es requerido']
+    
   },
   email: {
     type: String,
