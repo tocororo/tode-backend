@@ -16,7 +16,7 @@ documentController.get_documents = async (req, res, next) => {
      })
      .catch(err => res.status(400).json(err))
 
-     await Permision.find().populate('document_user').populate('document').then (function(permision){
+     await Permision.find().populate('withPermisions').populate('document').then (function(permision){
         perm = permision
     }) 
     .catch(err => res.status(400).json(err))
@@ -44,16 +44,17 @@ documentController.post_document = async (req, res, next) => {
     await Document.create(req.body).then(function (document) {    
         crearDirectorio(document);
         version_body = {
-            'coment': document.coment,
-            'document_user': document.document_user,
-            'document': document
+            coment: document.coment,
+            document_user: document.document_user,
+            document: document
         }
         DocumentVersion.create(version_body).then(function (document_version) {
             crearTXTversion(document_version)
         });
         permision_body = {
-            'document_user': document.document_user,
-            'document': document
+            requestAcepted: true,
+            withPermisions: document.document_user,
+            document: document
         }
         Permision.create(permision_body)
         res.status(200).send(document)})
