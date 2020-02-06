@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
-const { get_documents_version, get_document_version, document_version_content, post_document_version, put_document_version, delete_document_version } = require('../controllers/document_version.controller')
+const { get_documents_version, get_document_version, post_document_version} = require('../controllers/document_version.controller')
+const { document_version_content } = require('../controllers/fileSystem.controller')
 
 const auth = require('../middlewares/auth')
 

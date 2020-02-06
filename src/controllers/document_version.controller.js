@@ -19,7 +19,7 @@ document_versionController.get_document_version = async (req, res, next) => {
             .catch(err => res.status(400).json(err));
     };
 
-document_versionController.document_version_content = async (req, res, next) => {
+/* document_versionController.document_version_content = async (req, res, next) => {
     await DocumentVersion.findOne({ _id: req.params.id }).then(function (document_version) {
         var dir = config.data_dir + '/' + document_version.document._id;        
         fs.readFile(dir + '/' + `${document_version._id}.txt`, "utf8", function(err, data) {
@@ -27,30 +27,29 @@ document_versionController.document_version_content = async (req, res, next) => 
             res.status(200).json(data);
         });
     });
-};
+}; */
 
 document_versionController.post_document_version = async (req, res, next) => {
     await DocumentVersion.create(req.body).then( document_version => {
         crearTXTversion(document_version)
         Permision.find( {document: document_version.document} ).populate('document').then( permision =>{
-        permision.map(perm=>{
-            if(perm.withPermisions != document_version.document_user )
-            {
-                notification_body = {
-                    notification: `Se ha creado una nueva version del documento ${perm.document.name}` ,
-                    toUser: perm.withPermisions,
-                    document: perm.document,
-                    document_version: document_version
-                } 
-                Notification.create(notification_body)
-                console.log(perm.withPermisions);
-                console.log(document_version.document_user)
-            }
-            })
-        })        
-        res.status(200).json(document_version)
+                permision.forEach((perm, index)=>{
+                    if(perm.withPermisions.toString() !== document_version.document_user.toString())
+                    {
+                        notification_body = {
+                            notification: `Se ha creado una nueva version del documento ${perm.document.name}` ,
+                            toUser: perm.withPermisions,
+                            document: perm.document._id,
+                            document_version: document_version._id
+                        } 
+                        Notification.create(notification_body)
+                    }
+                })      
+            res.status(200).json(document_version)      
+        })
+        .catch(err => res.status(400).json(err));  
     })
-        .catch(err => res.status(400).json(err));
+        
 };
 
 /* document_versionController.put_document_version = async (req, res, next) => {

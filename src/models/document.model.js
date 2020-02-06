@@ -5,8 +5,9 @@ const Schema=mongoose.Schema
 const documentSchema = new Schema(
     {
     name:{ type:String, unique: true, required: [true, 'El campo nombre del documento es requerido']},
-    coment:String,    
-    document_user: {type: Schema.ObjectId, ref:'user'}
+    coment:{type: String},    
+    document_user: {type: Schema.ObjectId, ref:'user'},
+    imgURL: String    
     },
     {
     timestamps: true
