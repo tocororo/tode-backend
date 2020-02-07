@@ -28,7 +28,7 @@ fileSystem.crearTXT = (req, res) => {
              fs.mkdir(dir_path, function(err) {
                  if(err) return console.error(err);
              });
-            fs.writeFile(`/${dir_path}/${document_version._id}.txt`, `${document_version.coment}`, function(err) {
+            fs.writeFile(`/${dir_path}/${document_version._id}.txt`, `${req.body.text}`, function(err) {
                 if(err) return console.error(err);            
             });
         });

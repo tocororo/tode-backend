@@ -27,8 +27,10 @@ permisionController.get_permisions = async (req, res, next) => {
 };
 
 permisionController.delete_permision = async (req, res, next) => {
-    await Permision.findOneAndRemove({ _id: req.params.id }).then(function (permision) {
-        res.status(200).send(permision)})
+    await Permision.findOneAndRemove({ _id: req.params.id }).then(permision => {
+        Notification.findOneAndRemove({ forPermisions: permision.withPermisions }).then(
+        res.status(200).send(permision)
+    )})
         .catch(err => res.status(400).json(err))
 }
 
