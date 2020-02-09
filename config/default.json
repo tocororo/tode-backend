@@ -3,6 +3,14 @@
     "jwtSecret": "Secrete_User_Password",
     "port": 4000,
     "data_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/data",
-    "temp_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/temp"
+    "temp_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/temp",
+    "secret-session": "Secret Session",
+    "behind-proxy": false,
+    "authorizationURL":" https://sceiba-lab.upr.edu.cu/oauth/authorize",
+    "tokenURL": "https://sceiba-lab.upr.edu.cu/oauth/token",
+    "clientID": "dbabNYSR2noJQFaEgAcL8pHHGJZglmD1QRQ55O4W",
+    "clientSecret": "xAClXCMLslS3kClUvf3VBe0b9yiZzH6Wjj63rL6sWA3XDIjrfT2avMezPiCg",
+    "callbackURL": "https://10.2.64.4:3000"
+    
 }
 

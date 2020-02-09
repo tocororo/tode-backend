@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "client-install": "npm install --prefix ../tode-frontend",
-    "start-server": "nodemon src/index.js",
+    "start-server": "nodemon ./bin/www",
     "start-client": "npm start --prefix ../tode-frontend",
     "start": "concurrently  \"npm run start-server\" \"npm run start-client\" "
   },
@@ -15,14 +15,19 @@
     "bcryptjs": "^2.4.3",
     "concurrently": "^4.1.2",
     "config": "^3.2.2",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.13",
     "multer": "^1.4.2",
     "nodemon": "^1.18.4",
     "parse-formdata": "^1.0.2",
+    "passport": "^0.4.1",
+    "passport-oauth2": "^1.5.0",
     "socket.io": "^2.3.0",
     "yargs": "^11.0.0"
   },

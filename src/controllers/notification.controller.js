@@ -57,6 +57,12 @@ notificationController.get_notificationNumber = async (req, res, next)=>{
             countToUser = ''
        )    
     })
+    
+    res.status(200).json( countToUser )
+}
+
+notificationController.get_requestNumber = async (req, res, next)=>{
+    let countForPermisions = 0
 
     await Notification.find({forPermisions:req.user.id}).then( notificationForPermisions=> { 
         notificationForPermisions.map(notifyPermisions => 
@@ -67,7 +73,7 @@ notificationController.get_notificationNumber = async (req, res, next)=>{
         )
     })
 
-    res.status(200).json(count = countToUser + countForPermisions)
+    res.status(200).json(countForPermisions)
 }
 
 notificationController.delete_notification = async (req, res, next) => {
