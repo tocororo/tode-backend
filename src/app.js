@@ -25,7 +25,7 @@ app.use(cors());
 // parse cookies
 app.use(cookieParser());
 
-app.use(session(config.get('secret-session')));
+// app.use(session(config.get('secret-session')));
 // initalize passport
 app.use(passport.initialize());
 // deserialize cookie from the browser

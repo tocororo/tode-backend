@@ -2,8 +2,6 @@ const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken')
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
-const passport = require("passport")
 
 const userController = {};
 
@@ -52,19 +50,32 @@ userController.get_user_auth = (req, res) => {
         res.status(200).send(JSON.stringify(user)))
 };
 
-//autenticacion con oauth2
-userController.getUserOauth2 = () => {
-    console.log('jajajajajj');
-    
-    // passport.authenticate("oauth2");
-}
 
-// redirect to home page after successfully login via oauth2
-userController.redirect = () => {
-  passport.authenticate("oauth2", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
-    failureRedirect: "http://localhost:3000"
-  })
-};
+////////////////////OAuth2Strategy//////////////////////////////////
+
+userController.loginSuccess = (req, res) => {
+    if (req.user) {
+      res.json({
+        success: true,
+        message: "user has successfully authenticated",
+        user: req.user,
+        cookies: req.cookies
+      });
+    }
+  };
+  
+  // when login failed, send failed msg
+  userController.loginFailed = (req, res) => {
+    res.status(401).json({
+      success: false,
+      message: "user failed to authenticate."
+    });
+  };
+  
+  // When logout, redirect to client
+  userController.logout = (req, res) => {
+    req.logout();
+    res.redirect(config.get("CLIENT_HOME_PAGE_URL"));
+  };
 
 module.exports = userController; 

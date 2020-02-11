@@ -17,6 +17,6 @@ router.route('/notificationNumber').get(auth, get_notificationNumber);
 
 router.route('/requestNumber').get(auth, get_requestNumber);
 
-router.route('/delete_notification/:id').get(auth, delete_notification);
+router.route('/delete_notification/:id').delete(auth, delete_notification);
 
 module.exports = router;

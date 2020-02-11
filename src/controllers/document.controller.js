@@ -1,5 +1,6 @@
 const Document = require('../models/document.model');
 const Permision = require('../models/permision.model')
+const DocumentVersion = require('../models/document_version.model');
 const { crearDirectorio } = require('./fileSystem.controller')
 // var fs = require('fs');
 // var config = require('config')
@@ -30,22 +31,11 @@ documentController.get_document = async (req, res, next) => {
 };
 
 documentController.document_ByName = async (req, res, next) => {
-    await Document.findOne({ name: req.query.name }).populate('document_user').then(function (document) {
+    await Document.findOne({ name: req.query.name }).populate('document_user').then(document =>
         res.status(200).send(document)
-    })
+    )
         .catch(err => res.status(400).json(err))
 };
-
-/* documentController.document_content = async (req, res, next) => {
-    await Document.findOne({ _id: req.params.id }).then(function (document) {
-        var dir = config.data_dir + '/' + document._id;        
-        fs.readFile(dir + '/' + `${document._id}.txt`, "utf8", function(err, data) {
-            if (err) throw err;
-            res.send(data);
-        });   
-    });
-};
- */
 
 documentController.post_document = async (req, res, next) => {
     await Document.create(req.body).then( document => {    
@@ -80,9 +70,27 @@ documentController.put_document = async (req, res, next) => {
 
 documentController.delete_document = async (req, res, next) => {
     await Document.findOneAndRemove({ _id: req.params.id }).then(function (document) {
-        res.status(200).send(document)})
+            DocumentVersion.findOneAndRemove({ document: req.params.id }).then(function (document_version) {
+                Permision.findOneAndRemove({ document: req.params.id }).then(function (permision) {
+                    res.status(200).send(document)
+                })
+            
+            })
+        
+        })
         .catch(err => res.status(400).json(err))
 }
 
+documentController.updateDocumentName = async (req, res, next)=>{
+    console.log(req.query);
+    await Document.updateOne({
+            _id: req.query.id,},
+            { name: req.query.name })
+        .then( notification => 
+         res.status(200).json(notification)
+        )
+        .catch(err => res.status(400).json(err))
+    
+}
 
 module.exports = documentController;

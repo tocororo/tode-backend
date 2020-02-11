@@ -13,7 +13,7 @@ permisionController.get_permisions = async (req, res, next) => {
 
    permisionController.post_permision = async (req, res, next) => {
     await Permision.create(req.body).then( permision => {
-        Permision.findOne({withPermisions: permision.withPermisions}).populate('withPermisions').populate('document').then( perm => {
+        Permision.findOne({withPermisions: permision.withPermisions}).populate('document').then( perm => {
         notification_body = {
             notification: `Un usuaio desea compartir contigo el articulo de nombre: ${perm.document.name}` ,
             forPermisions: permision.withPermisions,
