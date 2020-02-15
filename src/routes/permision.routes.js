@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { get_permisions, post_permision, delete_permision } = require('../controllers/permision.controller')
 
-const auth = require('../middlewares/auth')
+const oauth2 = require('../middlewares/oauth2')
 
 router.route('/permision').get(get_permisions);
 

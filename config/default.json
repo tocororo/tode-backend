@@ -10,8 +10,8 @@
     "tokenURL": "https://sceiba-lab.upr.edu.cu/oauth/token",
     "clientID": "dbabNYSR2noJQFaEgAcL8pHHGJZglmD1QRQ55O4W",
     "clientSecret": "Hbzpk0MnBxPtH1GKuxv3mfzQlImawtqr46XQANGFvXRbUuYz7ARnzSFVJdZS",
-    "callbackURL": "https://10.2.64.4:4000/redirect",
-    "CLIENT_HOME_PAGE_URL": "http://localhost:3000"
+    "callbackURL": "/oauth2",
+    "CLIENT_HOME_PAGE_URL": "https://localhost:3000"
     
 }
 

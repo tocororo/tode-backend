@@ -3,9 +3,9 @@ const router = Router();
 const { get_documents_version, get_document_version, post_document_version} = require('../controllers/document_version.controller')
 const { document_version_content } = require('../controllers/fileSystem.controller')
 
-const auth = require('../middlewares/auth')
+const oauth2 = require('../middlewares/oauth2')
 
-router.route('/document_version').get(auth, get_documents_version);
+router.route('/document_version').get(oauth2, get_documents_version);
 
 router.route('/document_version/:id').get(get_document_version);
 

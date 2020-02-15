@@ -5,8 +5,8 @@ const notificationSchema = new Schema (
     {
     notification: {type: String},
     notificationSied:{type: Boolean, default: false},
-    toUser: {type: Schema.ObjectId, ref:''}, 
-    forPermisions: {type: Schema.ObjectId, ref:''},
+    toUser: {type: Schema.ObjectId, ref:'oauth2Usere'}, 
+    forPermisions: {type: Schema.ObjectId, ref:'oauth2Usere'},
     document_version: {type: Schema.ObjectId, ref:'document_version'},
     document: {type: Schema.ObjectId, ref:'document'}
     },

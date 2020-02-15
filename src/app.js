@@ -2,34 +2,58 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const passport = require("passport");
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser"); // parse cookie header
-const passportSetup = require("./controllers/passport-setup");
 const config = require("config")
 const session = require("express-session")
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+const passportSetup = require("./controllers/passport-setup");
+// 
+// instal morgan for routes
+// 
 
-if(config.get("behind-proxy") === true)
-    app.set('trust proxy', 1)
+if (config.get("behind-proxy") === true)
+  app.set('trust proxy', 1)
 
 
+app.use(cors());
+// parse cookies
 app.use(
   cookieSession({
     name: "session",
-    keys: "[keys.COOKIE_KEY]",
+    keys: "thisappisawesome",
     maxAge: 24 * 60 * 60 * 100
   })
 );
 
-app.use(cors());
-// parse cookies
 app.use(cookieParser());
 
-// app.use(session(config.get('secret-session')));
+app.use(session({
+  secret: config.get('secret-session'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true
+  }
+}));
+
+
+app.use(express.urlencoded({
+  extended: true
+}))
+
 // initalize passport
 app.use(passport.initialize());
-// deserialize cookie from the browser
+
 app.use(passport.session());
+
+app.use(
+  cors({
+    origin: "http://127.0.0.1:3000", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // allow session cookie from browser to pass through
+  })
+);
 
 app.use(express.json());
 
@@ -41,5 +65,25 @@ app.use(require('./routes/document.routes'));
 app.use(require('./routes/document_version.routes'));
 app.use(require('./routes/permision.routes'));
 app.use(require('./routes/notification.routes'));
+
+const authCheck = (req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({
+      authenticated: false,
+      message: "user has not been authenticated"
+    });
+  } else {
+    next();
+  }
+};
+
+app.get("/", authCheck, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: "user successfully authenticated",
+    user: req.user,
+    cookies: req.cookies
+  });
+});
 
 module.exports = app;

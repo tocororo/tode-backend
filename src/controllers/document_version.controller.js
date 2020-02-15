@@ -15,7 +15,8 @@ document_versionController.get_documents_version = async (req, res, next) => {
 
 document_versionController.get_document_version = async (req, res, next) => {
         await DocumentVersion.findOne({ _id: req.params.id }).then(function (document_version) {
-            res.status(200).json(document_version)})
+            res.status(200).json(document_version)
+        })
             .catch(err => res.status(400).json(err));
     };
 
@@ -33,7 +34,7 @@ document_versionController.post_document_version = async (req, res, next) => {
     await DocumentVersion.create(req.body).then( document_version => {
         crearTXTversion(document_version)
         Permision.find( {document: document_version.document} ).populate('document').then( permision =>{
-                permision.forEach((perm, index)=>{
+                permision.forEach((perm)=>{
                     if(perm.withPermisions.toString() !== document_version.document_user.toString())
                     {
                         notification_body = {
