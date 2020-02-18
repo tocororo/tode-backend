@@ -3,7 +3,7 @@ const Permision = require('../models/permision.model')
 const notificationController = {};
 
 notificationController.get_notifications = async (req, res, next) => {
-   await Notification.find().populate('document').populate('document_version').populate('document')
+   await Notification.find().populate('document').populate('forPermisions').populate('toUser').populate('document')
    .then(notification => res.status(200).json(notification)
    ).catch(err => res.status(400).json(err));
 };
