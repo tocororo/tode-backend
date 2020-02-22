@@ -8,8 +8,8 @@
     "behind-proxy": false,
     "authorizationURL":" https://sceiba-lab.upr.edu.cu/oauth/authorize",
     "tokenURL": "https://sceiba-lab.upr.edu.cu/oauth/token",
-    "clientID": "dbabNYSR2noJQFaEgAcL8pHHGJZglmD1QRQ55O4W",
-    "clientSecret": "Hbzpk0MnBxPtH1GKuxv3mfzQlImawtqr46XQANGFvXRbUuYz7ARnzSFVJdZS",
+    "clientID": "AP4tYbpVvR14rNLWBmkivI3Yg4ELV9u1svjVpvAP",
+    "clientSecret": "4lEdCnindyejETaXa7b2MnAuKLwpHKBA00PGgmha33egzVYIfSnKbBqtXRJ7",
     "callbackURL": "/oauth2",
     "CLIENT_HOME_PAGE_URL": "https://localhost:3000"
     

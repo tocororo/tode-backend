@@ -71,8 +71,8 @@ notificationController.get_requestNumber = async (req, res, next)=>{
 }
 
 notificationController.delete_notification = async (req, res, next) => {
-    await Notification.findOneAndRemove({ _id: req.params.id}).then(notification => {
-        Permision.findOneAndRemove({withPermisions: notification.forPermisions}).then(permision =>
+    await Notification.findOneAndRemove({ forPermisions: req.user.id, document:req.params.id}).then(notification => {
+        Permision.findOneAndRemove({withPermisions: req.user.id, requestAcepted:false, document:req.params.id}).then(permision =>
             res.status(200).send(permision)
         )
         res.status(200).send(notification)

@@ -2,6 +2,7 @@ const Document = require('../models/document.model');
 const Permision = require('../models/permision.model')
 const DocumentVersion = require('../models/document_version.model');
 const { crearDirectorio } = require('./fileSystem.controller')
+const validateDocuments = require('../validation/documents')
 // var fs = require('fs');
 // var config = require('config')
 
@@ -37,24 +38,29 @@ documentController.document_ByName = async (req, res, next) => {
         .catch(err => res.status(400).json(err))
 };
 
-documentController.post_document = async (req, res, next) => {
-    await Document.create(req.body).then( document => {    
-        crearDirectorio(document);
-        /* version_body = {
-            coment: document.coment,
-            document_user: document.document_user,
-            document: document
-        }
-        DocumentVersion.create(version_body).then(function (document_version) {
-            crearTXTversion(document_version)
-        }); */
-        permision_body = {
-            requestAcepted: true,
-            withPermisions: document.document_user,
-            document: document
-        }
-        Permision.create(permision_body)
-        res.status(200).send(document)
+documentController.post_document = async (req, res, next) => {    
+    const {errors, isValid} = validateDocuments(req.body)
+    
+    if(!isValid){        
+        return res.status(400).json(errors)
+    }
+    await Document.findOne({name:req.body.name}).then( document => {
+        if (document) {
+            return res.status(400).json({
+                name: 'Ya existe un documento con el nombre' + document.name
+            })
+        } else {
+            Document.create(req.body).then( doc => {        
+                crearDirectorio(doc);
+                permision_body = {
+                    requestAcepted: true,
+                    withPermisions: doc.document_user,
+                    document: doc
+                }
+                Permision.create(permision_body)
+                res.status(200).send(document)
+            })
+        }            
     })
         .catch(err => res.status(400).json(err))
 };
