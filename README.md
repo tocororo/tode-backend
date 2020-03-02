@@ -1,4 +1,6 @@
-# tode-backend
+Instalar de pendencias con el comando **npm install**
+
+Iniciar con el comando **npm run start-server** (asegurarse de terner **nodemon** instalado)
 
 Si se va a usar otra aplicacion para loguearse con OAuth2 Strategy cambie la estrategia en **./src/controllers/passport-setup.js**
 
