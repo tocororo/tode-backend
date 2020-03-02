@@ -11,14 +11,14 @@ require('../src/database');
 let path = require('path');
 var fs = require('fs'),
     config = require("config"),
-    socket = require('socket.io');
+    
 
 options = {
   key: fs.readFileSync('./certs/node.key'),
   cert: fs.readFileSync('./certs/node.crt'),
 };
 /**
- * Get port from environment and store in Express.
+ * Get port from config and store in Express.
  */
 const port = config.get('port')
 app.set('port', port);
@@ -33,8 +33,8 @@ var server = http.createServer(options, app);
  * Listen on provided port, on all network interfaces.
  */
 
-let chat = server.listen(port || 5000, function () {
-  console.log(`Servidor escuchando en puerto ${port}`);
+server.listen(port || 5000, function () {
+  console.log(`Servidor escuchando en https://localhost:${port}`);
 });
 server.on('error', onError);
 server.on('listening', onListening);
@@ -79,20 +79,11 @@ function onListening() {
   debug('Listening on ' + bind);  
 }
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("./client/build"));
-  app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "../../tode-frontend/build/index.html"));
-  });
-}
-
 // Starting a socket on the specified server
-let io = socket(chat);
+var io = require('socket.io')(server);
 
 io.on("connection", (socket) => {
-
   socket.on("new-message", (data) => {
       io.sockets.emit("new-message", data);
   });
-
 });

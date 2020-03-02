@@ -15,12 +15,10 @@ documentController.get_documents = async (req, res, next) => {
      await Document.find().populate('document_user').then(function(document){
         doc = document;
      })
-     .catch(err => res.status(400).json(err))
 
      await Permision.find().populate('withPermisions').populate('document').then (function(permision){
         perm = permision
     }) 
-    .catch(err => res.status(400).json(err))
     
     res.status(200).json({docs:doc, perms:perm})
 };

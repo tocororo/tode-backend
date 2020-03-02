@@ -8,7 +8,7 @@ const permisionSchema = new Schema({
     },
     withPermisions: {
         type: Schema.ObjectId,
-        ref: 'oauth2Usere',
+        ref: 'oauth2User',
         required: [true, 'No existe el usuario al cual se desea asiganar permisos']
     },
     document: {

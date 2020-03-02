@@ -11,23 +11,23 @@ const notificationSchema = new Schema({
     },
     toUser: {
         type: Schema.ObjectId,
-        ref: 'oauth2Usere',
-        required: [true, 'No se puede enviar notificacion a este usuario']
+        ref: 'oauth2User',
+        //required: [true, 'No se puede enviar notificacion a este usuario']
     },
     forPermisions: {
         type: Schema.ObjectId,
-        ref: 'oauth2Usere',
-        required: [true, 'No se puede enviar notificacion a este usuario']
+        ref: 'oauth2User',
+        //required: [true, 'No se puede enviar notificacion a este usuario']
     },
     document_version: {
         type: Schema.ObjectId,
         ref: 'document_version',
-        required: [true, 'Es necesaria una version del documento']
+        //required: [true, 'Es necesaria una version del documento']
     },
     document: {
         type: Schema.ObjectId,
         ref: 'document',
-        required: [true, 'Es necesario un documento']
+        //required: [true, 'Es necesario un documento']
     }
 }, {
     timestamps: true

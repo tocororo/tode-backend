@@ -40,7 +40,6 @@ notificationController.get_notificationForPermisions = async (req, res, next)=>{
               },
               { requestAcepted: true })
             )
-         res.status(200).json(notification)
         .catch(err => res.status(400).json(err)) 
     
 }

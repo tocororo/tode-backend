@@ -23,34 +23,25 @@ userController.get_user = async (req, res, next) =>
     .catch(err => res.status(400).json(err))
 
 userController.getUsersToPermission = async (req, res, next) => {
-
+    const regex = new RegExp(req.query.value)
+    
     await Oauth2User.find({
-        "name": req.query.value
-    }).then(function (users) {
+        "name": {$regex: regex, $options: 'i'}
+    }).then(function (user) {        
         Permision.find({
-                "withPermisions": users._id,
-                "document": req.query.document_id
+                document: req.query.document
             }).then(function (permision) {
-                    users.filter(user => user._id !== permision.withPermisions)
+               /*  let users = permision.map( perm => {
+                    return user.filter(val => val._id !== perm.withPermisions)
+                })  
+                console.log(users); */
+                  
                     res.status(200).json(user)
                 }
             )
             .catch(err => res.status(400).json(err))
 
     })
-    /* await User.find({"name": req.query.value}).then(function (user) {  
-
-       Permision.find({"document": req.query.document_id, "document_user": user._id}).then(function (permision) { 
-           if(permision.document_user != user._id)            
-            {
-            res.json(user) 
-            console.log(user);   
-           }else
-               {
-                res.status(400).json({ msg: "El usuario ya tiene permisos sobre el documento" })
-                console.log('El usuario ya tiene permisos sobre el documento');
-               }                   
-       }); */
 };
 
 userController.post_user = async (req, res, next) => {
