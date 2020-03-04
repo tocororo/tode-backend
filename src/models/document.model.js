@@ -12,7 +12,7 @@ const documentSchema = new Schema({
     },
     document_user: {
         type: Schema.ObjectId,
-        ref: 'oauth2Usere',
+        ref: 'oauth2User',
         required: [true, 'No existe usuario al cual asiganar el documento']
     },
     imgURL: String

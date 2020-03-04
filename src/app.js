@@ -6,8 +6,7 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const config = require("config")
 const session = require("express-session")
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
-const passportSetup = require("./controllers/passport-setup");
+const path = require('path')
 // 
 // instal morgan for routes
 // 
