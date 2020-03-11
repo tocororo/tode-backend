@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const oauth2UserSchema = new Schema({
+  access_token: String,
+  expires_in: Number,
   sceibaId: String,
   name: String,
   email: String,

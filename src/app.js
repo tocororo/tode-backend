@@ -6,7 +6,8 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const config = require("config")
 const session = require("express-session")
-const path = require('path')
+var bodyParser = require('body-parser');
+
 // 
 // instal morgan for routes
 // 
@@ -36,11 +37,6 @@ app.use(session({
   }
 }));
 
-
-app.use(express.urlencoded({
-  extended: true
-}))
-
 // initalize passport
 app.use(passport.initialize());
 
@@ -54,7 +50,11 @@ app.use(
   })
 );
 
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
+
+/* app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true})); */
 
 //routes
 app.use(require('./routes/user.routes'));

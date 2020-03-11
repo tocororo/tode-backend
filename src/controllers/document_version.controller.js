@@ -1,8 +1,7 @@
 const DocumentVersion = require('../models/document_version.model');
 const Notification = require('../models/notification.model');
 const Permision = require('../models/permision.model');
-const { crearTXTversion } = require('./fileSystem.controller')
-var fs = require('fs');
+const { createVersionFile } = require('./versionContent.controller')
 var config = require('config')
 
 const document_versionController = {};
@@ -14,7 +13,7 @@ document_versionController.get_documents_version = async (req, res, next) => {
     };
 
 document_versionController.get_document_version = async (req, res, next) => {
-        await DocumentVersion.findOne({ _id: req.params.id }).then(function (document_version) {
+        await DocumentVersion.findOne({ _id: req.params.id }).populate('document_user').populate('document').then(function (document_version) {
             res.status(200).json(document_version)
         })
             .catch(err => res.status(400).json(err));
@@ -30,9 +29,37 @@ document_versionController.get_document_version = async (req, res, next) => {
     });
 }; */
 
-document_versionController.post_document_version = async (req, res, next) => {
-    await DocumentVersion.create(req.body).then( document_version => {
-        crearTXTversion(document_version)
+document_versionController.post_document_version = async (req, res, next) => {  
+    const obj = JSON.parse(JSON.stringify(req.body))
+    console.log( obj);
+    console.log(req.body.image);
+     
+    version_body = {
+        coment: req.body.comment,
+        document_user: req.body.document_user,
+        document: req.body.document,
+        image: `${config.temp_dir}/${req.file.filename}`
+    } 
+    await DocumentVersion.create(version_body).then( document_version => {
+        createVersionFile(document_version, obj.text)       
+            res.status(200).json(document_version)      
+        })
+        .catch(err => res.status(400).json(err));          
+};
+
+ document_versionController.put_document_version = async (req, res, next) => {
+    const obj = JSON.parse(JSON.stringify(req.body))
+    console.log( obj);
+    console.log(req.body.image);
+     
+    version_body = {
+        coment: req.body.comment,
+        document_user: req.body.document_user,
+        document: req.body.document,
+        image: `${config.temp_dir}/${req.file.filename}`
+    } 
+    await DocumentVersion.create(version_body).then( document_version => {
+        createVersionFile(document_version, obj.text)
         Permision.find( {document: document_version.document} ).populate('document').then( permision =>{
                 permision.forEach((perm)=>{
                     if(perm.withPermisions.toString() !== document_version.document_user.toString())
@@ -50,17 +77,7 @@ document_versionController.post_document_version = async (req, res, next) => {
         })
         .catch(err => res.status(400).json(err));  
     })
-        
-};
-
-/* document_versionController.put_document_version = async (req, res, next) => {
-    await DocumentVersion.findOneAndUpdate({ _id: req.params.id }, req.body).then(function () {
-        DocumentVersion.findOne({ _id: req.params.id }).then(function (document_version) {
-            res.send(document_version);
-
-        });
-    });
-} */
+} 
 
 /* document_versionController.delete_document_version = async (req, res, next) => {
     await DocumentVersion.findOneAndRemove({ _id: req.params.id }).then(function (document_version) {

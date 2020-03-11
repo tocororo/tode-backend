@@ -1,7 +1,7 @@
 const Document = require('../models/document.model');
 const Permision = require('../models/permision.model')
 const DocumentVersion = require('../models/document_version.model');
-const { crearDirectorio } = require('./fileSystem.controller')
+const { crearDirectorio } = require('./versionContent.controller')
 const validateDocuments = require('../validation/documents')
 // var fs = require('fs');
 // var config = require('config')
@@ -43,11 +43,7 @@ documentController.post_document = async (req, res, next) => {
         return res.status(400).json(errors)
     }
     await Document.findOne({name:req.body.name}).then( document => {
-        if (document) {
-            return res.status(400).json({
-                name: 'Ya existe un documento con el nombre' + document.name
-            })
-        } else {
+        
             Document.create(req.body).then( doc => {        
                 crearDirectorio(doc);
                 permision_body = {
@@ -56,9 +52,8 @@ documentController.post_document = async (req, res, next) => {
                     document: doc
                 }
                 Permision.create(permision_body)
-                res.status(200).send(document)
-            })
-        }            
+                res.status(200).send(doc)
+            })    
     })
         .catch(err => res.status(400).json(err))
 };

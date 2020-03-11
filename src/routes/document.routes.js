@@ -1,14 +1,14 @@
 const { Router } = require('express');
-const router = Router();
+const router = Router();/* 
 var multer = require('multer');
 var config = require('config');
-var uuidv4 = require('uuid/v4');
+var uuidv4 = require('uuid/v4'); */
 
 const { get_documents, get_document, document_ByName, post_document, delete_document, updateDocumentName } = require('../controllers/document.controller')
-const { document_content, crearTXT } = require('../controllers/fileSystem.controller')
+const { document_content } = require('../controllers/versionContent.controller')
 const oauth2 = require('../middlewares/oauth2')
 
-const storage = multer.diskStorage({
+/* const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, config.temp_dir);
     },
@@ -31,7 +31,7 @@ var upload = multer({
     }
 });
 
-
+ */
 router.route('/document').get(oauth2, get_documents );
 
 router.route('/document/:id').get(oauth2, get_document);
@@ -46,6 +46,6 @@ router.route('/updateDocumentName').get(  updateDocumentName);
 
 router.route('/delete_document/:id').delete( oauth2, delete_document);
 
-router.route('/createText').post(upload.single('image'), crearTXT);
+//router.route('/createText').post(upload.single('image'), crearTXT);
 
 module.exports = router;

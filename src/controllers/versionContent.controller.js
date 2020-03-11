@@ -4,9 +4,9 @@ var config = require('config')
 const Document = require('../models/document.model');
 const DocumentVersion = require('../models/document_version.model');
 
-const fileSystem = {};
+const versionContent = {};
 
-fileSystem.crearDirectorio = (doc) => {
+versionContent.crearDirectorio = (doc) => {
     try {
         var dir = config.data_dir + '/' + doc._id;
         fs.mkdir(dir, function (err) {
@@ -17,7 +17,7 @@ fileSystem.crearDirectorio = (doc) => {
     }
 }
 
-fileSystem.crearTXT = (req, res) => {
+/* versionContent.crearTXT = (req, res) => {
     Document.findOne({
         name: req.query.name
     }).then(document => {
@@ -34,9 +34,20 @@ fileSystem.crearTXT = (req, res) => {
             });
         }).catch(err => res.status(400).json(err))
     }).catch(err => res.status(400).json(err))
+} */
+
+versionContent.createVersionFile = (document_version, text) => {
+    try {
+            const dir_path = config.data_dir + '/' + document_version.document;
+            fs.writeFile(`/${dir_path}/${document_version._id}`, `${text}`, function (err) {
+                if (err) return console.error(err);
+            });
+    } catch (error) {
+        return console.error(error);
+    }
 }
 
-fileSystem.crearTXTversion = (res, document_version) => {
+/* versionContent.crearTXTversion = (res, document_version) => {
     try {
         fs.writeFile(`/${dir_path}/${document_version._id}.txt`, `${document_version.coment}`, function (err) {
             if (err) return console.error(err);
@@ -44,9 +55,9 @@ fileSystem.crearTXTversion = (res, document_version) => {
     } catch (error) {
         res.status(400).json(error);
     }
-}
+} */
 
-fileSystem.document_content = async (req, res) => {
+versionContent.document_content = async (req, res) => {
     await Document.findOne({
         _id: req.params.id
     }).then(document => {
@@ -59,12 +70,12 @@ fileSystem.document_content = async (req, res) => {
 
 };
 
-fileSystem.document_version_content = async (req, res) => {
+versionContent.document_version_content = async (req, res) => {
     await DocumentVersion.findOne({
         _id: req.params.id
     }).then(document_version => {
         var dir = config.data_dir + '/' + document_version.document
-        fs.readFile(dir + '/' + `${document_version._id}.txt`, "utf8", function read(err, data) {
+        fs.readFile(dir + '/' + `${document_version._id}`, "utf8", function read(err, data) {
             if (err) {
                 console.log(err);
             }
@@ -75,4 +86,4 @@ fileSystem.document_version_content = async (req, res) => {
 };
 
 
-module.exports = fileSystem;
+module.exports = versionContent;

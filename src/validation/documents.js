@@ -12,12 +12,6 @@ module.exports = function validateDocuments(data) {
     if (Validator.isEmpty(data.name)) {
         errors.name = 'El campo (nombre del documento) del documento es requerido'
     }
-    if(!Validator.isLength(data.coment, {min: 1, max: 30 })){
-        errors.coment = 'El comentario del documento debe contener entre 1 y 30 caracteres'
-    }
-    if (Validator.isEmpty(data.coment)) {
-        errors.coment = 'El campo (comentario del documento) del documento es requerido'
-    }
 
     return{
         errors,

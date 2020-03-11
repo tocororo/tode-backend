@@ -28,21 +28,33 @@ passport.use(new OAuth2Strategy({
     callbackURL: config.get("callbackURL")
   },
   async (token, tokenSecret, profile, params, done) => {
-
     // find current user in Oauth2UserModel
     const currentUser = await Oauth2User.findOne({
       sceibaId: profile.user.id
     });
     // create new user if the database doesn't have this user
+    const date = new Date();
+    const expires = (parseInt(profile.expires_in) * 1000) + date.getTime();
+
     if (!currentUser) {
-      const str = profile.user.email
-      const name = str.split('@')
+      const str = profile.user.email;
+      const name = str.split('@');
       await new Oauth2User({
+        access_token: profile.access_token,
+        expires_in: expires,
         sceibaId: profile.user.id,
         name: name[0],
-        email: profile.user.email,
-        email_verified: profile.user.email_verified
+        email: profile.user.email
       }).save();
+    } else {
+      await Oauth2User.updateOne({
+        _id: currentUser._id
+      }, {
+        $set: {
+          access_token: profile.access_token,
+          expires_in: expires
+        }
+      });
     }
     done(null, profile);
   }

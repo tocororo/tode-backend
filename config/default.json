@@ -3,7 +3,7 @@
     "jwtSecret": "Secrete_User_Password",
     "port": 4000,
     "data_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/data",
-    "temp_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/temp",
+    "images_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/images",
     "secret-session": "Secret Session",
     "behind-proxy": false,
     "authorizationURL":" https://sceiba-lab.upr.edu.cu/oauth/authorize",
