@@ -4,8 +4,8 @@ const messageController = {};
 
 
 // GET all the previous messages
-messageController.get_message = (req, res) => {
-    Message.find({'document': req.query.document_id}).exec((err, messages) => {
+messageController.get_message = (req, res) => {    
+    Message.find({'document': req.query.id}).exec((err, messages) => {
         if (err) {
             res.send(err).status(500);
         } else {
@@ -16,7 +16,12 @@ messageController.get_message = (req, res) => {
 
 // POST a new message
 messageController.post_message = (req, res) => {
-    Message.create(req.body).then((message) => {
+    message_body = {
+        sender: req.body.sender,
+        content: req.body.content.toString(),
+        document: req.body.document
+    }
+    Message.create(message_body).then((message) => {
         res.send(message).status(200);
     }).catch((err) => {
         console.log(err);

@@ -9,8 +9,9 @@ var http = require('https');
 require('dotenv').config();
 require('../src/database');
 let path = require('path');
-var fs = require('fs'),
-    config = require("config"),
+var fs = require('fs');
+var config = require("config")
+
     
 
 options = {
@@ -28,6 +29,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(options, app);
+var socketIO = require('socket.io')
+var io = socketIO(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -80,10 +83,14 @@ function onListening() {
 }
 
 // Starting a socket on the specified server
-var io = require('socket.io')(server);
+io.on("connection", function(socket) {
+  console.log("Connection established!");
 
-io.on("connection", (socket) => {
-  socket.on("new-message", (data) => {
-      io.sockets.emit("new-message", data);
+  socket.on("newChatMessage", data => {
+    io.emit("newChatMessage", data);
+  });
+
+  socket.on("disconnect", function() {
+    console.log("Disconnected!");
   });
 });

@@ -7,7 +7,7 @@ var config = require('config')
 const document_versionController = {};
 
 document_versionController.get_documents_version = async (req, res, next) => {
-     DocumentVersion.find().populate('document_user').populate('document').then(function(document_version){
+     DocumentVersion.find().populate('document_user').sort( { createdAt: -1 }).populate('document').then(function(document_version){
          res.status(200).json(document_version)})
         .catch(err => res.status(400).json(err));
     };
@@ -49,8 +49,6 @@ document_versionController.post_document_version = async (req, res, next) => {
 
  document_versionController.put_document_version = async (req, res, next) => {
     const obj = JSON.parse(JSON.stringify(req.body))
-    console.log( obj);
-    console.log(req.body.image);
      
     version_body = {
         coment: req.body.comment,

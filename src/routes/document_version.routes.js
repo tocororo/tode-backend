@@ -29,7 +29,7 @@ var upload = multer({
             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
         }
     }
-}).single('image');
+}).single('image')
 
 router.route('/document_version').get(oauth2, get_documents_version);
 
