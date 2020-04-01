@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({
     storage: storage,
-    limits:{fileSize: 2000000},
+    //limits:{fileSize: 2000000},
     fileFilter: (req, file, cb) => {
         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
             cb(null, true);
@@ -29,7 +29,7 @@ var upload = multer({
             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
         }
     }
-}).single('image')
+}).array('image', 10)
 
 router.route('/document_version').get(oauth2, get_documents_version);
 
@@ -37,7 +37,7 @@ router.route('/document_version/:id').get(get_document_version);
 
 router.route('/document_version_content/:id').get(document_version_content);
 
-router.route('/new_document_version').post(upload, post_document_version);
+router.route('/new_document_version').post(upload, post_document_version );
 
 router.route('/put_document_version').post(upload, put_document_version);
 

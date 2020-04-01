@@ -1,5 +1,4 @@
 const Oauth2User = require("../models/oauth2User.model");
-const validateDocuments = require('../validation/documents')
 
 auth = async (req, res, next) => {
     const token = req.header('Autorizacion')

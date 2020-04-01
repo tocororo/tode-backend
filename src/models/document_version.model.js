@@ -12,8 +12,8 @@ const document_versionSchema = new Schema({
         ref: 'document',
         required: [true, 'Es necesario un documento']
     },
-    image: {
-        type: String
+    images: {
+        type: [String]
     }
 }, {
     timestamps: true

@@ -16,6 +16,8 @@ const permisionSchema = new Schema({
         ref: 'document',
         required: [true, 'Es necesario un documento']
     }
+    }, {
+    timestamps: true
 })
 
 const Permision = mongoose.model('permision', permisionSchema);
