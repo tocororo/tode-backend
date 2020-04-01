@@ -5,7 +5,7 @@ var config = require('config');
 var uuidv4 = require('uuid/v4');
 
 const { get_documents_version, get_document_version, post_document_version, put_document_version} = require('../controllers/document_version.controller')
-const { document_version_content, createVersionFile } = require('../controllers/versionContent.controller')
+const { document_version_content, document_version_compare } = require('../controllers/versionContent.controller')
 const oauth2 = require('../middlewares/oauth2')
 
 const storage = multer.diskStorage({
@@ -39,7 +39,9 @@ router.route('/document_version_content/:id').get(document_version_content);
 
 router.route('/new_document_version').post(upload, post_document_version);
 
-router.route('/put_document_version').post(upload, put_document_version)
+router.route('/put_document_version').post(upload, put_document_version);
+
+router.route('/document_version_compare').get(document_version_compare);
 
 //router.route('/delete_document_version/:id').delete(delete_document_version); 
 
