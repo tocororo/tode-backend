@@ -44,7 +44,9 @@ passport.use(new OAuth2Strategy({
         expires_in: expires,
         sceibaId: profile.user.id,
         name: name[0],
-        email: profile.user.email
+        email: profile.user.email,
+        role: [],
+        perfilImage:`${config.images_dir}/square-image`
       }).save();
     } else {
       await Oauth2User.updateOne({
