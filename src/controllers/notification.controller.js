@@ -32,7 +32,7 @@ notificationController.get_notificationForPermisions = async (req, res, next)=>{
           notificationSied: false,
           document: req.query.document,
         },
-        { notificationSied: true })
+        {$set:{ notificationSied: true }})
         .then( notification => 
             Permision.updateOne({
                 requestAcepted: false,

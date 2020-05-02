@@ -6,6 +6,7 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const config = require("config")
 const session = require("express-session")
+const morgan = require('morgan')
 var bodyParser = require('body-parser');
 
 // 
@@ -50,6 +51,7 @@ app.use(
   })
 );
 
+app.use(morgan('dev'))
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 

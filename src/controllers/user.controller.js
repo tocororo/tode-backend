@@ -24,20 +24,23 @@ userController.getUsersToPermission = async (req, res, next) => {
     
     await Oauth2User.find({
         "name": {$regex: regex, $options: 'i'}
-    }).then(function (user) {        
+    }).then( users => {        
         Permision.find({
                 document: req.query.document
-            }).then(function (permision) {
-               /*  let users = permision.map( perm => {
-                    return user.filter(val => val._id !== perm.withPermisions)
-                })  
-                console.log(users); */
-                  
-                    res.status(200).json(user)
+            }).then( permisions => {
+                let names = new Array
+                permisions.forEach( perm => {
+                    users.forEach( user => {
+                        if (perm && user._id.toString() != perm.withPermisions.toString()) {  
+                            //names[index] = user.name              
+                            names.push({_id:user._id, title:'name', name:user.name})
+                        }
+                    })     
+                })               
+                    res.status(200).json(names)
                 }
             )
             .catch(err => res.status(400).json(err))
-
     })
 };
 

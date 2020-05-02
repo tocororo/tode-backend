@@ -11,29 +11,28 @@ const validateDocuments = require('../validation/documents')
 const documentController = {};
 
 documentController.get_documents = async (req, res, next) => {
+    const user = JSON.parse(JSON.stringify(req.user));
     var docs, perms, permsShared
 
-    await Document.find().populate('document_user').then(function (document) {
+    await Document.find().populate('document_user').then((document) => {
         docs = document;
     })
 
-    await Permision.find().populate('withPermisions').populate('document').then(function (permision) {
-        // perm = permision
+    await Permision.find().populate('withPermisions').populate('document').then((permision) => {
         perms = new Array(permision.length);
         permsShared = new Array(permision.length)
 
         docs.forEach(doc => {
-            permision.forEach((perm, index) => {
-                if (req.user && req.user._id.toString() === perm.withPermisions._id.toString() && req.user._id.toString() === perm.document.document_user.toString()) {
+            permision.forEach((perm, index) => {                
+                if (user && user._id.toString() == perm.withPermisions._id.toString() && user._id.toString() == perm.document.document_user.toString()) {
                     perms[index] = perm;
                 }
-                if (req.user && req.user._id.toString() === perm.withPermisions._id.toString() && req.user._id.toString() !== perm.document.document_user.toString() && perm.requestAcepted.toString() === true && perm.document._id.toString() === doc._id.toString()) {
+                if (user && user._id.toString() == perm.withPermisions._id.toString() && user._id.toString() !== perm.document.document_user.toString() && perm.requestAcepted == true && perm.document._id.toString() == doc._id.toString()) {
                     permsShared[index] = perm
                 }
             });
         });
     });
-
     res.status(200).json({
         docs: docs,
         perms: perms,

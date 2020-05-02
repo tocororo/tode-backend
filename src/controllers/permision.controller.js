@@ -4,7 +4,7 @@ const Notification = require('../models/notification.model');
 const permisionController = {}
 
 permisionController.get_permisions = async (req, res, next) => {
-    await Permision.find().populate('document_user').populate('document').then(function (permision) {
+    await Permision.find({document: req.params.id}).populate('withPermisions').populate('document').then(function (permision) {
             res.status(200).send(permision)
         })
         .catch(err => res.status(400).json(err))
@@ -18,7 +18,7 @@ permisionController.post_permision = async (req, res, next) => {
                 withPermisions: permision.withPermisions
             }).populate('document').then(perm => {
                 notification_body = {
-                    notification: `Un usuaio desea compartir contigo el articulo de nombre: ${perm.document.name}`,
+                    notification: `Un usuario desea compartirte:`,
                     forPermisions: permision.withPermisions,
                     document: permision.document
                 };
@@ -41,6 +41,17 @@ permisionController.delete_permision = async (req, res, next) => {
             )
         })
         .catch(err => res.status(400).json(err))
+}
+
+permisionController.cancelPermisionShared = async (req, res, next) => {
+    const params = JSON.parse(JSON.stringify(req.params));
+
+    await Permision.findOneAndRemove({
+        document: params.id,
+        withPermisions: req.user._id
+    }).then( permision => {
+        res.status(200).send(permision)
+    })
 }
 
 module.exports = permisionController;

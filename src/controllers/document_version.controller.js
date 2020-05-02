@@ -10,6 +10,7 @@ var config = require('config')
 const document_versionController = {};
 
 document_versionController.get_documents_version = async (req, res, next) => {
+    const user = JSON.parse(JSON.stringify(req.user));
     var docs, perms, permsShared, docs_version, versiones, last, lastShared
 
     await Document.find().populate('document_user').then(function (document) {
@@ -17,30 +18,30 @@ document_versionController.get_documents_version = async (req, res, next) => {
     })
 
     await Permision.find().populate('withPermisions').populate('document').then(function (permision) {
-        // perm = permision
-        perms = new Array(permision.length);
-        permsShared = new Array(permision.length)
+         // perm = permision
+         perms = new Array(permision.length);
+         permsShared = new Array(permision.length)
+ 
+         docs.forEach(doc => {
+             permision.forEach((perm, index) => {                
+                 if (user && user._id.toString() == perm.withPermisions._id.toString() && user._id.toString() == perm.document.document_user.toString()) {
+                     perms[index] = perm;
+                 }
+                 if (user && user._id.toString() == perm.withPermisions._id.toString() && user._id.toString() !== perm.document.document_user.toString() && perm.requestAcepted == true && perm.document._id.toString() == doc._id.toString()) {
+                     permsShared[index] = perm
+                 }
+             });
+         });
+     });
 
-        docs.forEach(doc => {
-            permision.forEach((perm, index) => {
-                if (req.user && req.user._id.toString() === perm.withPermisions._id.toString() && req.user._id.toString() === perm.document.document_user.toString()) {
-                    perms[index] = perm;
-                }
-                if (req.user && req.user._id.toString() === perm.withPermisions._id.toString() && req.user._id.toString() !== perm.document.document_user.toString() && perm.requestAcepted.toString() === true && perm.document._id.toString() === doc._id.toString()) {
-                    permsShared[index] = perm
-                }
-            });
-        });
-    });
-
-    await DocumentVersion.find().populate('document_user').populate('document').then(function (document_version) {
+    await DocumentVersion.find().populate('document_user').populate('document').then( (document_version) => {
         docs_version = document_version 
 
         last = new Array(perms.length);
             perms.forEach((perm, perm_index) => {
                 versiones = new Array();
-                document_version.forEach((vers, vers_index) => {
-                    if (perm.document._id.toString() === vers.document._id.toString()) {
+                document_version.forEach((vers, vers_index) => {                    
+                    if (perm.document._id.toString() == vers.document._id.toString()) {
                         versiones[vers_index] = vers;
                     }
                 })
@@ -50,13 +51,13 @@ document_versionController.get_documents_version = async (req, res, next) => {
             lastShared = new Array(permsShared.length);
                 permsShared.forEach((perm, perm_index) => {
                     versiones = new Array();
-                    document_version.forEach((vers, vers_index) => {
-                        if (perm.document._id.toString() === vers.document._id.toString()) {
+                    document_version.forEach((vers, vers_index) => {                        
+                        if (perm.document._id.toString() == vers.document._id.toString()) {
                             versiones[vers_index] = vers;
                         }
                     })
                     lastShared[perm_index] = versiones[versiones.length - 1];
-                })
+                })                
         })                   
         res.status(200).json({
             docs_version: docs_version,
@@ -115,7 +116,7 @@ document_versionController.put_document_version = async (req, res, next) => {
                 permision.forEach((perm) => {
                     if (perm.withPermisions.toString() !== document_version.document_user.toString()) {
                         notification_body = {
-                            notification: `Se ha creado una nueva version del documento ${perm.document.name}`,
+                            notification: `Se ha creado una nueva versión de:`,
                             toUser: perm.withPermisions,
                             document: perm.document._id,
                             document_version: document_version._id

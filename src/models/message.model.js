@@ -13,6 +13,10 @@ const MessageSchema = new Schema({
     document: {
         type: Schema.ObjectId, ref:'document'
     },
+    messageSied:{
+        type: Boolean,
+        default:false
+    },
     timestamp: {
         type: Date,
         default: Date.now

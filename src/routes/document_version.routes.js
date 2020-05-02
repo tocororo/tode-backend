@@ -41,8 +41,6 @@ router.route('/new_document_version').post(upload, post_document_version );
 
 router.route('/put_document_version').post(upload, put_document_version);
 
-router.route('/document_version_compare').get(document_version_compare);
-
 //router.route('/delete_document_version/:id').delete(delete_document_version); 
 
 

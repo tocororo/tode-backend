@@ -1,9 +1,9 @@
 {
-    "MONGODB_URI": "mongodb://localhost/tode",
+    "MONGODB_URI": "mongodb://localhost/tode-react",
     "jwtSecret": "Secrete_User_Password",
     "port": 4000,
-    "data_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/data",
-    "images_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/images",
+    "data_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/tode-REACT/data",
+    "images_dir": "/media/alejandro/6EBCB2ECBCB2AE49/Tocororo/Proyectos/tode-REACT/images",
     "secret-session": "Secret Session",
     "behind-proxy": false,
     "authorizationURL":" https://sceiba-lab.upr.edu.cu/oauth/authorize",
